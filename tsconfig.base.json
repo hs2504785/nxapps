@@ -14,7 +14,18 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@default/*": ["apps/conduit/src/app/*"],
+      "@env/*": ["apps/conduit/src/environments/*"],
+      "@nxapps/*": ["libs/*"],
+      "@nxapps/api": ["libs/api/src/index.ts"],
+      "@nxapps/article-list": ["libs/article-list/src/index.ts"],
+      "@nxapps/auth": ["libs/auth/src/index.ts"],
+      "@nxapps/ngrx-error": ["libs/ngrx-error/src/index.ts"],
+      "@nxapps/ngrx-forms": ["libs/ngrx-forms/src/index.ts"],
+      "@nxapps/ngrx-router": ["libs/ngrx-router/src/index.ts"],
+      "@nxapps/shared": ["libs/shared/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }
