@@ -14,7 +14,12 @@
     "default": {
       "runner": "@nrwl/workspace/tasks-runners/default",
       "options": {
-        "cacheableOperations": ["build", "lint", "test", "e2e"]
+        "cacheableOperations": [
+          "build",
+          "lint",
+          "test",
+          "e2e"
+        ]
       }
     }
   },
@@ -27,12 +32,23 @@
     ]
   },
   "projects": {
+    "conduit": {
+      "tags": []
+    },
+    "conduit-e2e": {
+      "tags": [],
+      "implicitDependencies": [
+        "conduit"
+      ]
+    },
     "nxdemos": {
       "tags": []
     },
     "nxdemos-e2e": {
       "tags": [],
-      "implicitDependencies": ["nxdemos"]
+      "implicitDependencies": [
+        "nxdemos"
+      ]
     }
   }
 }
