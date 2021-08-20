@@ -25,7 +25,10 @@
     "update": "nx migrate latest",
     "workspace-generator": "nx workspace-generator",
     "dep-graph": "nx dep-graph",
-    "help": "nx help"
+    "help": "nx help",
+    "generate": "node ./server/generate.js > ./server/database.json",
+    "server": "json-server --watch ./server/database.json  --id=_id",
+    "dev": "concurrently \"npm run server\" \"npm run start\""
   },
   "private": true,
   "dependencies": {
@@ -62,6 +65,7 @@
     "@types/node": "14.14.33",
     "@typescript-eslint/eslint-plugin": "~4.28.3",
     "@typescript-eslint/parser": "~4.28.3",
+    "concurrently": "^6.2.1",
     "cypress": "^7.3.0",
     "dotenv": "~10.0.0",
     "eslint": "7.22.0",
@@ -69,6 +73,7 @@
     "eslint-plugin-cypress": "^2.10.3",
     "jest": "27.0.3",
     "jest-preset-angular": "9.0.4",
+    "json-server": "^0.16.3",
     "prettier": "^2.3.1",
     "ts-jest": "27.0.3",
     "ts-node": "~9.1.1",
