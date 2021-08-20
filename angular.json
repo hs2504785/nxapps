@@ -120,6 +120,11 @@
     },
     "nxdemos": {
       "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
       "root": "apps/nxdemos",
       "sourceRoot": "apps/nxdemos/src",
       "prefix": "app",
@@ -143,6 +148,11 @@
             "styles": [
               "apps/nxdemos/src/styles.scss"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "scss/abstracts"
+              ]
+            },
             "scripts": []
           },
           "configurations": {
