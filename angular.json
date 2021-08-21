@@ -143,14 +143,19 @@
             "inlineStyleLanguage": "scss",
             "assets": [
               "apps/nxdemos/src/favicon.ico",
-              "apps/nxdemos/src/assets"
+              "apps/nxdemos/src/assets",
+              {
+                "glob": "**/*",
+                "input": "assets/",
+                "output": "assets/"
+              }
             ],
             "styles": [
               "apps/nxdemos/src/styles.scss"
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
-                "scss/abstracts"
+                "scss"
               ]
             },
             "scripts": []
