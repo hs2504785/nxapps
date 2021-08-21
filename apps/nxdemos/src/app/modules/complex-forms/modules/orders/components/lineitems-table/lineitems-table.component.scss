@@ -1,0 +1,22 @@
+.mat-header-cell, .mat-cell {
+  padding: 0 16px;
+}
+
+.mat-column-index {
+  flex: 0 0 40px;
+}
+
+.mat-column-total {
+  padding: 0;
+  margin-left: 16px;
+  text-align: right;
+}
+
+.mat-column-actions {
+  flex: 0 0 40px;
+  padding: 0;
+}
+
+.actions {
+  margin-top: 16px;
+}
