@@ -1,1 +1,11 @@
-<p>products works!</p>
+<div class="products-container">
+  <div>
+    <h2>Products</h2>
+    <div class="actions" fxLayout="row" fxLayoutAlign="end center">
+      <button mat-raised-button color="primary" routerLink="add">
+        <i class="ti-plus"></i> Add Product
+      </button>
+    </div>
+    <!-- <app-products-table [products]="products$ | async" (delete)="onDeleteProduct($event)" (edit)="onEditProduct($event)"></app-products-table> -->
+  </div>
+</div>
