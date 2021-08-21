@@ -1,11 +1,17 @@
 <div class="products-container">
   <div>
     <h2>Products</h2>
-    <div class="actions" fxLayout="row" fxLayoutAlign="end center">
+    <div class="actions">
       <button mat-raised-button color="primary" routerLink="add">
         <i class="ti-plus"></i> Add Product
       </button>
     </div>
-    <!-- <app-products-table [products]="products$ | async" (delete)="onDeleteProduct($event)" (edit)="onEditProduct($event)"></app-products-table> -->
+    <ng-container *ngIf="products$ | async as products">
+      <app-products-table
+        [products]="products"
+        (delete)="onDeleteProduct($event)"
+        (edit)="onEditProduct($event)"
+      ></app-products-table>
+    </ng-container>
   </div>
 </div>

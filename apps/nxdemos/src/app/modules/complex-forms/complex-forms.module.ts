@@ -10,9 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { ToolbarComponent } from '../../shared/components/toolbar/toolbar.component';
-import { StoreModule } from '@ngrx/store';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { environment } from '../../../environments/environment';
+import { StateModule } from './modules/state/state.module';
 
 @NgModule({
   declarations: [ComplexFormsComponent, ToolbarComponent],
@@ -25,12 +23,7 @@ import { environment } from '../../../environments/environment';
     MatIconModule,
     MatMenuModule,
     MatButtonModule,
-    StoreModule.forRoot({}),
-    StoreDevtoolsModule.instrument({
-      maxAge: 25, // Retains last 25 states
-      logOnly: environment.production, // Restrict extension to log-only mode
-      autoPause: true, // Pauses recording actions and state changes when the extension window is not open
-    }),
+    StateModule.forRoot(),
   ],
 })
 export class ComplexFormsModule {}

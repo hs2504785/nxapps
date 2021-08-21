@@ -1,1 +1,14 @@
-<p>product works!</p>
+<div class="product-container">
+  <div>
+    <h2>Product</h2>
+    <app-product-form
+      [product]="product$ | async"
+      (productChange)="onProductChange($event)"
+      [showErrors]="showErrors"
+    ></app-product-form>
+    <div class="actions">
+      <button mat-button color="secondary" routerLink="../">Cancel</button>
+      <button mat-raised-button color="primary" (click)="onSave()">Save</button>
+    </div>
+  </div>
+</div>

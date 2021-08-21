@@ -19,6 +19,7 @@
       "@default/*": ["apps/conduit/src/app/*"],
       "@env/*": ["apps/conduit/src/environments/*"],
       "@nxapps/*": ["libs/*"],
+      "@nxdemos/*": ["apps/nxdemos/src/*"],
       "@nxapps/api": ["libs/api/src/index.ts"],
       "@nxapps/article-list": ["libs/article-list/src/index.ts"],
       "@nxapps/auth": ["libs/auth/src/index.ts"],

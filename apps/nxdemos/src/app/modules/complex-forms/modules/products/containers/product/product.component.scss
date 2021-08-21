@@ -1,0 +1,11 @@
+.product-container {
+  margin: 20px 0;
+
+  .actions {
+    margin: 16px 0;
+
+    button + button {
+      margin-left: 8px;
+    }
+  }
+}
