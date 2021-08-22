@@ -67,7 +67,7 @@ export class OrdersComponent implements OnInit {
   }
   onAddOrder() {
     this.store.dispatch(clearSelectedOrder());
-    this.router.navigateByUrl('orders/add');
+    this.router.navigateByUrl('complex-forms/orders/add');
   }
   onDeleteOrder(order: Order) {
     this.store.dispatch(deleteOrder({ id: order.id }));

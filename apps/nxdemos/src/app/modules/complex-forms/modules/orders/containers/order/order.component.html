@@ -1,8 +1,16 @@
-<div fxLayout="row" fxLayoutAlign="center stretch" class="order-container">
+<div class="order-container">
   <div>
     <h2>Order</h2>
-    <!-- <app-order-form [order]="order$ | async" [customer]="customer$ | async" [customers]="customers$ | async" [lineItems]="lineItems$ | async"
-      [products]="products$ | async" (lineItemsChange)="onLineItemsChange($event)" (orderChange)="onOrderChange($event)" (validationsChange)="onValidationsChange($event)"></app-order-form> -->
+    <app-order-form
+      [order]="order$ | async"
+      [customer]="customer$ | async"
+      [customers]="customers$ | async"
+      [lineItems]="lineItems$ | async"
+      [products]="products$ | async"
+      (lineItemsChange)="onLineItemsChange($event)"
+      (orderChange)="onOrderChange($event)"
+      (validationsChange)="onValidationsChange($event)"
+    ></app-order-form>
     <div class="actions">
       <button mat-button color="secondary" routerLink="/orders">Cancel</button>
       <button mat-raised-button color="primary" (click)="save()">Save</button>

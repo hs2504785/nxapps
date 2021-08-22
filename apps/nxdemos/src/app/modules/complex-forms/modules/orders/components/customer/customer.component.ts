@@ -22,7 +22,7 @@ export class CustomerComponent implements OnChanges, OnDestroy, OnInit {
   customerFormControl: FormControl;
   filteredCustomers: Observable<Customer[]>;
   @Input() customer: Customer;
-  @Input() customers: Customer[];
+  @Input() customers: Customer[] | null;
   @Output() customerChange = new EventEmitter<Customer>();
   @Output() validationChange = new EventEmitter<any>();
 

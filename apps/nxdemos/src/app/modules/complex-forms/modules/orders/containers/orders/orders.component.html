@@ -2,12 +2,10 @@
   <div>
     <h2>Orders</h2>
     <div class="actions">
-      <!-- <button mat-raised-button color="primary" (click)="onAddOrder()"> -->
-      <button mat-raised-button color="primary">
+      <button mat-raised-button color="primary" (click)="onAddOrder()">
         <i class="ti-plus"></i> Add Order
       </button>
     </div>
-    {{ orders$ | async | json }}
     <app-orders-table
       [ordersView]="orders$ | async"
       (delete)="onDeleteOrder($event)"

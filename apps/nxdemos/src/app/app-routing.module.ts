@@ -9,13 +9,25 @@ const routes: Routes = [
         (m) => m.ComplexFormsModule
       ),
   },
-  { path: 'not-found', loadChildren: () => import('./modules/not-found/not-found.module').then(m => m.NotFoundModule) },
-  { path: 'dashboard', loadChildren: () => import('./modules/dashboard/dashboard.module').then(m => m.DashboardModule) },
-  // Fallbak route
   {
-    path: '**',
-    redirectTo: '/not-found',
+    path: 'not-found',
+    loadChildren: () =>
+      import('./modules/not-found/not-found.module').then(
+        (m) => m.NotFoundModule
+      ),
   },
+  {
+    path: 'dashboard',
+    loadChildren: () =>
+      import('./modules/dashboard/dashboard.module').then(
+        (m) => m.DashboardModule
+      ),
+  },
+  // Fallbak route
+  // {
+  //   path: '**',
+  //   redirectTo: '/not-found',
+  // },
 ];
 
 @NgModule({

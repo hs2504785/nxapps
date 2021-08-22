@@ -43,11 +43,11 @@ export class OrderFormComponent implements OnChanges, OnDestroy {
    */
   formGroup: FormGroup;
 
-  @Input() customers: Customer[];
-  @Input() order: Order;
-  @Input() products: Product[];
-  @Output() lineItemsChange = new EventEmitter<LineItem[]>();
-  @Output() orderChange = new EventEmitter<Order>();
+  @Input() customers: Customer[] | null;
+  @Input() order: Order | null;
+  @Input() products: Product[] | null;
+  @Output() lineItemsChange = new EventEmitter<any[]>();
+  @Output() orderChange = new EventEmitter<any>();
   @Output() validationsChange = new EventEmitter<
     Map<AbstractControl, Validation>
   >();
@@ -55,7 +55,7 @@ export class OrderFormComponent implements OnChanges, OnDestroy {
   private destroyed$ = new Subject<void>();
   private validations = new Map<AbstractControl, Validation>();
   private _customer: Customer;
-  private _lineItems: LineItem[];
+  private _lineItems: LineItem[] | null;
 
   @Input()
   set customer(customer: Customer) {
@@ -74,12 +74,12 @@ export class OrderFormComponent implements OnChanges, OnDestroy {
   }
 
   @Input()
-  set lineItems(lineItems: LineItem[]) {
+  set lineItems(lineItems: LineItem[] | null) {
     this._lineItems = lineItems;
     this.lineItemsChange.emit(lineItems);
   }
 
-  get lineItems(): LineItem[] {
+  get lineItems(): LineItem[] | null {
     return this._lineItems;
   }
 
