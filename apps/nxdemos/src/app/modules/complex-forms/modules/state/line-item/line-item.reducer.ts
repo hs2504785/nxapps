@@ -70,13 +70,13 @@ export const lineItemReducer = createReducer(
       error: '',
     };
   }),
-  on(loadLineItemsSuccess, (state): LineItemsState => {
+  on(loadLineItemsSuccess, (state, action): LineItemsState => {
     return {
       ...lineItemAdapter.addMany(action.lineItems, state),
       loading: false,
     };
   }),
-  on(loadLineItemsSuccess, (state): LineItemsState => {
+  on(loadLineItemsSuccess, (state, action): LineItemsState => {
     return {
       ...lineItemAdapter.addMany(action.lineItems, state),
       loading: false,

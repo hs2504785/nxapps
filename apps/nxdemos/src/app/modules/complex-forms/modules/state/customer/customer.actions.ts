@@ -38,9 +38,9 @@ export const loadCustomers = createAction(CustomerActionTypes.LoadCustomers);
 
 export const loadCustomersSuccess = createAction(
   CustomerActionTypes.LoadCustomersSuccess,
-  props<{ customer: Customer[] }>()
+  props<{ customers: Customer[] }>()
 );
-export const oadCustomersFail = createAction(
+export const loadCustomersFail = createAction(
   CustomerActionTypes.LoadCustomersFail
 );
 export const addCustomer = createAction(
@@ -49,7 +49,7 @@ export const addCustomer = createAction(
 );
 export const upsertCustomer = createAction(
   CustomerActionTypes.UpsertCustomer,
-  props<{ customer: Update<Customer> }>()
+  props<{ customer: Customer }>()
 );
 export const addCustomers = createAction(
   CustomerActionTypes.AddCustomers,
@@ -57,7 +57,7 @@ export const addCustomers = createAction(
 );
 export const upsertCustomers = createAction(
   CustomerActionTypes.UpsertCustomers,
-  props<{ customers: Update<Customer>[] }>()
+  props<{ customers: Customer[] }>()
 );
 export const updateCustomer = createAction(
   CustomerActionTypes.UpdateCustomer,
@@ -65,7 +65,7 @@ export const updateCustomer = createAction(
 );
 export const updateCustomers = createAction(
   CustomerActionTypes.UpdateCustomers,
-  props<{ customers: Update<Customer>[] }>()
+  props<{ customers: Customer[] }>()
 );
 
 export const deleteCustomer = createAction(

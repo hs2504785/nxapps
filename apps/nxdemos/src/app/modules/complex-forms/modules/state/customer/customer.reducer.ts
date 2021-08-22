@@ -1,113 +1,125 @@
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 import { Customer } from './customer.model';
-import { CustomerActions, CustomerActionTypes } from './customer.actions';
+import {
+  addCustomer,
+  addCustomers,
+  clearCustomers,
+  CustomerActionTypes,
+  deleteCustomer,
+  deleteCustomers,
+  loadCustomer,
+  loadCustomerFail,
+  loadCustomers,
+  loadCustomersFail,
+  loadCustomersSuccess,
+  loadCustomerSuccess,
+  updateCustomer,
+  updateCustomers,
+  upsertCustomer,
+  upsertCustomers,
+} from './customer.actions';
+import { createReducer, on } from '@ngrx/store';
 
-export interface State extends EntityState<Customer> {
+export interface CustomerState extends EntityState<Customer> {
   // additional entities state properties
   selectedCustomerId: number;
   loading: boolean;
   error: string;
 }
 
-export const adapter: EntityAdapter<Customer> = createEntityAdapter<Customer>();
+export const customerAdapter: EntityAdapter<Customer> =
+  createEntityAdapter<Customer>();
 
-export const initialState: State = adapter.getInitialState({
+export const initialState: CustomerState = customerAdapter.getInitialState({
   // additional entity state properties
-  selectedCustomerId: null,
+  selectedCustomerId: 0,
   loading: false,
-  error: ''
+  error: '',
 });
 
-export function reducer(state = initialState, action: CustomerActions): State {
-  switch (action.type) {
-    case CustomerActionTypes.AddCustomer: {
-      return adapter.addOne(action.payload.customer, state);
-    }
+export const customerReducer = createReducer(
+  initialState,
+  on(
+    addCustomer,
+    (state, action): CustomerState =>
+      customerAdapter.addOne(action.customer, state)
+  ),
+  on(
+    upsertCustomer,
+    (state, action): CustomerState =>
+      customerAdapter.upsertOne(action.customer, state)
+  ),
+  on(
+    addCustomers,
+    (state, action): CustomerState =>
+      customerAdapter.addMany(action.customers, state)
+  ),
+  on(
+    upsertCustomers,
+    (state, action): CustomerState =>
+      customerAdapter.upsertMany(action.customers, state)
+  ),
+  on(
+    updateCustomer,
+    (state, action): CustomerState =>
+      customerAdapter.updateOne(action.customer, state)
+  ),
 
-    case CustomerActionTypes.UpsertCustomer: {
-      return adapter.upsertOne(action.payload.customer, state);
-    }
+  on(
+    updateCustomers,
+    (state, action): CustomerState =>
+      customerAdapter.upsertMany(action.customers, state)
+  ),
+  on(
+    deleteCustomer,
+    (state, action): CustomerState =>
+      customerAdapter.removeOne(action.id, state)
+  ),
+  on(
+    deleteCustomers,
+    (state, action): CustomerState =>
+      customerAdapter.removeMany(action.ids, state)
+  ),
+  on(loadCustomers, (state, action): CustomerState => {
+    return {
+      ...customerAdapter.removeAll(state),
+      loading: true,
+      error: '',
+    };
+  }),
+  on(loadCustomersSuccess, (state, action): CustomerState => {
+    return {
+      ...customerAdapter.addMany(action.customers, state),
+      loading: false,
+    };
+  }),
 
-    case CustomerActionTypes.AddCustomers: {
-      return adapter.addMany(action.payload.customers, state);
-    }
-
-    case CustomerActionTypes.UpsertCustomers: {
-      return adapter.upsertMany(action.payload.customers, state);
-    }
-
-    case CustomerActionTypes.UpdateCustomer: {
-      return adapter.updateOne(action.payload.customer, state);
-    }
-
-    case CustomerActionTypes.UpdateCustomers: {
-      return adapter.updateMany(action.payload.customers, state);
-    }
-
-    case CustomerActionTypes.DeleteCustomer: {
-      return adapter.removeOne(action.payload.id, state);
-    }
-
-    case CustomerActionTypes.DeleteCustomers: {
-      return adapter.removeMany(action.payload.ids, state);
-    }
-
-    case CustomerActionTypes.LoadCustomers: {
-      return {
-        ...adapter.removeAll(state),
-        loading: true,
-        error: ''
-      };
-    }
-
-    case CustomerActionTypes.LoadCustomersSuccess: {
-      return {
-        ...adapter.addAll(action.payload.customers, state),
-        loading: false
-      };
-    }
-
-    case CustomerActionTypes.LoadCustomersFail: {
-      return {
-        ...state,
-        loading: false,
-        error: 'error loading customers'
-      };
-    }
-
-    case CustomerActionTypes.LoadCustomer: {
-      return {
-        ...state,
-        loading: true,
-        error: ''
-      };
-    }
-
-    case CustomerActionTypes.LoadCustomerSuccess: {
-      return {
-        ...adapter.addOne(action.payload.customer, state),
-        loading: false
-      };
-    }
-
-    case CustomerActionTypes.LoadCustomerFail: {
-      return {
-        ...state,
-        loading: false,
-        error: 'error loading customer'
-      };
-    }
-
-    case CustomerActionTypes.ClearCustomers: {
-      return adapter.removeAll(state);
-    }
-
-    default: {
-      return state;
-    }
-  }
-}
-
-export const getSelectedId = (state: State) => state.selectedCustomerId;
-export const getLoading = (state: State) => state.loading;
-export const getError = (state: State) => state.error;
+  on(loadCustomersFail, (state): CustomerState => {
+    return {
+      ...state,
+      loading: false,
+      error: 'error loading customers',
+    };
+  }),
+  on(loadCustomer, (state): CustomerState => {
+    return {
+      ...state,
+      loading: true,
+      error: '',
+    };
+  }),
+  on(loadCustomerSuccess, (state, action): CustomerState => {
+    return {
+      ...customerAdapter.addOne(action.customer, state),
+      loading: false,
+    };
+  }),
+  on(loadCustomerFail, (state): CustomerState => {
+    return {
+      ...state,
+      loading: false,
+      error: 'error loading customer',
+    };
+  }),
+  on(clearCustomers, (state): CustomerState => customerAdapter.removeAll(state))
+);

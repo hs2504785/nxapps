@@ -1,24 +1,17 @@
 import { Component, Input, OnInit, EventEmitter, Output } from '@angular/core';
-
-import { Observable } from 'rxjs/Observable';
-import { map } from 'rxjs/operators';
-import { OrderView, Order } from '@state/order/order.model';
-import { Product } from '@state/product/product.model';
+import { Order, OrderView } from '../../../state/order/order.model';
+import { Product } from '../../../state/product/product.model';
 
 @Component({
   selector: 'app-orders-table',
   templateUrl: './orders-table.component.html',
-  styleUrls: ['./orders-table.component.scss']
+  styleUrls: ['./orders-table.component.scss'],
 })
-export class OrdersTableComponent implements OnInit {
+export class OrdersTableComponent {
   displayedColumns = ['id', 'customer', 'total', 'actions'];
   @Input() ordersView: Array<OrderView>;
   @Output() delete = new EventEmitter<Order>();
   @Output() edit = new EventEmitter<Order>();
-
-  constructor() { }
-
-  ngOnInit() { }
 
   computeOrderTotal(orderView: OrderView): number {
     if (!orderView.lineItems.length) {
@@ -27,19 +20,19 @@ export class OrdersTableComponent implements OnInit {
 
     // using the order view, calculate the product price * lineItem qty
     return orderView.lineItems
-      .map(lineItem => {
-        const p = orderView.products.find(
-          product => product.id === lineItem.productId
-        ),
+      .map((lineItem: any) => {
+        const p: any = orderView.products.find(
+            (product: any) => product.id === lineItem.productId
+          ),
           price = p.price;
 
         return lineItem.quantity * price;
       })
-      .reduce((prev, current) => prev + current);
+      .reduce((prev: any, current: any) => prev + current);
   }
 
   getProductPrice(orderView: OrderView, id: number) {
-    const data = orderView.products.find(
+    const data: any = orderView.products.find(
       (product: Product) => product.id === id
     );
 

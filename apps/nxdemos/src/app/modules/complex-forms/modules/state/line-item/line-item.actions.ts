@@ -1,6 +1,7 @@
 import { Update } from '@ngrx/entity';
 import { LineItem } from './line-item.model';
 import { createAction, props } from '@ngrx/store';
+import { Order } from '../order/order.model';
 
 export enum LineItemActionTypes {
   AddLineItem = '[LineItem] Add LineItem',

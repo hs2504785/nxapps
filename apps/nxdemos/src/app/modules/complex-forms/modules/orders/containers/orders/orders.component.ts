@@ -10,54 +10,54 @@ import {
   loadOrdersView,
   selectOrder,
 } from '../../../state/order/order.actions';
-import { getAllOrders } from '../../../state/order';
-import { getCustomerEntities } from '../../../state/customer';
-import { getLineItemEntities } from '../../../state/line-item';
 import { getProductEntities } from '../../../state/product/product.selectors';
 import { filter, map } from 'rxjs/operators';
 import { Customer } from '../../../state/customer/customer.model';
 import { LineItem } from '../../../state/line-item/line-item.model';
 import { Product } from '../../../state/product/product.model';
+import { getAllOrders } from '../../../state/order/order.selectors';
+import { getLineItemEntities } from '../../../state/line-item/line-item.selectors';
+import { getCustomerEntities } from '../../../state/customer/customer.selectors';
 @Component({
   templateUrl: './orders.component.html',
   styleUrls: ['./orders.component.scss'],
 })
 export class OrdersComponent implements OnInit {
-  orders$: Observable<OrderView[]>;
+  orders$: Observable<OrderView[] | any>;
   constructor(private router: Router, private store: Store<AppState>) {}
 
   ngOnInit() {
     this.store.dispatch(loadOrdersView());
-    const orders$ = this.store.pipe(select(getAllOrders)),
+    const orders1$ = this.store.pipe(select(getAllOrders)),
       customers$ = this.store.pipe(select(getCustomerEntities)),
       lineItems$ = this.store.pipe(select(getLineItemEntities)),
       products$ = this.store.pipe(select(getProductEntities));
 
-    this.orders$ = combineLatest(
-      orders$,
+    this.orders$ = combineLatest([
+      orders1$,
       customers$,
       lineItems$,
-      products$
-    ).pipe(
+      products$,
+    ]).pipe(
       filter(
         ([orders, customers, lineItems, products]) =>
           !!orders && !!customers && !!lineItems && !!products
       ),
       map(([orders, customers, lineItems, products]) => {
         return orders.map((order: Order) => {
-          const c: Customer = customers[order.customerId],
+          const c: Customer | undefined = customers[order.customerId],
             l: LineItem[] = [],
             p: Product[] = [];
           // find the line items
           order.lineItemIds.forEach((id) => {
             if (lineItems[id]) {
-              l.push(lineItems[id]);
+              // l.push(lineItems[id]);
             }
           });
           // find the products
           l.forEach((lineItem) => {
             if (products[lineItem.productId]) {
-              p.push(products[lineItem.productId]);
+              // p.push(products[lineItem.productId]);
             }
           });
           return { order: order, customer: c, lineItems: l, products: p };
