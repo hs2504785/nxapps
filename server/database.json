@@ -28,6 +28,16 @@
       "price": 3.57
     },
     {
+      "id": 2,
+      "name": "Deodorant",
+      "price": 2.5
+    },
+    {
+      "id": 3,
+      "name": "Hairspray",
+      "price": 1.99
+    },
+    {
       "id": 4,
       "name": "Shaving Cream",
       "price": 4.25
@@ -70,6 +80,13 @@
         12,
         13
       ]
+    },
+    {
+      "customerId": 3,
+      "id": 5,
+      "lineItemIds": [
+        14
+      ]
     }
   ],
   "lineItems": [
@@ -77,6 +94,16 @@
       "id": 1,
       "productId": 1,
       "quantity": 2
+    },
+    {
+      "id": 2,
+      "productId": 2,
+      "quantity": 5
+    },
+    {
+      "id": 3,
+      "productId": 3,
+      "quantity": 3
     },
     {
       "id": 4,
@@ -89,6 +116,16 @@
       "quantity": 2
     },
     {
+      "id": 6,
+      "productId": 2,
+      "quantity": 3
+    },
+    {
+      "id": 7,
+      "productId": 3,
+      "quantity": 4
+    },
+    {
       "id": 8,
       "productId": 4,
       "quantity": 5
@@ -99,6 +136,16 @@
       "quantity": 2
     },
     {
+      "id": 10,
+      "productId": 2,
+      "quantity": 4
+    },
+    {
+      "id": 11,
+      "productId": 3,
+      "quantity": 6
+    },
+    {
       "id": 12,
       "productId": 4,
       "quantity": 1
@@ -107,6 +154,11 @@
       "id": 13,
       "productId": 1,
       "quantity": 3
+    },
+    {
+      "id": 14,
+      "productId": 2,
+      "quantity": 10
     }
   ]
 }

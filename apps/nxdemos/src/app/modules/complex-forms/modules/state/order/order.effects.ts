@@ -48,11 +48,14 @@ export class OrderEffects {
     return this.actions$.pipe(
       ofType(addOrder),
       filter((action) => !action.order.id),
-      switchMap(({ order }) => {
-        return this.service.save(order);
-      }),
-      map(({ lineItems, order }) => addOrderSuccess({ lineItems, order })),
-      catchError(() => of(LoadOrderFail()))
+      switchMap((payload) => {
+        return this.service.save(payload.order).pipe(
+          map((order) =>
+            addOrderSuccess({ lineItems: payload.lineItems, order })
+          ),
+          catchError(() => of(LoadOrderFail()))
+        );
+      })
     );
   });
 

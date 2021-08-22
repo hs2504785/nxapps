@@ -33,10 +33,10 @@ export const initialState: OrderState = orderAdapter.getInitialState({
 
 export const orderReducer = createReducer(
   initialState,
-  on(
-    addOrderSuccess,
-    (state, action): OrderState => orderAdapter.addOne(action.order, state)
-  ),
+  on(addOrderSuccess, (state, action): OrderState => {
+    console.log('HERE', action);
+    return orderAdapter.addOne(action.order, state);
+  }),
   on(clearSelectedOrder, (state): OrderState => {
     return {
       ...state,

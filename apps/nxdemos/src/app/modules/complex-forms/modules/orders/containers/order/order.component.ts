@@ -71,10 +71,7 @@ export class OrderComponent implements OnDestroy, OnInit {
 
     // get all line items
     this.store.dispatch(loadLineItems());
-    this.lineItems$ = this.store.pipe(
-      select(getOrderLineItems),
-      map((lineItems) => clone(lineItems))
-    );
+    this.lineItems$ = this.store.pipe(select(getOrderLineItems));
 
     // get all products
     this.store.dispatch(loadProducts());

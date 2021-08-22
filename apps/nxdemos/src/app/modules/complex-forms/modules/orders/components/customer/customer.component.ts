@@ -10,7 +10,7 @@ import {
 import { AbstractControl, FormControl, Validators } from '@angular/forms';
 import { Observable, Subject } from 'rxjs';
 
-import { debounceTime, map, takeUntil } from 'rxjs/operators';
+import { debounceTime, map, startWith, takeUntil } from 'rxjs/operators';
 import { Customer } from '../../../state/customer/customer.model';
 
 @Component({
@@ -34,7 +34,7 @@ export class CustomerComponent implements OnChanges, OnDestroy, OnInit {
 
   ngOnChanges() {
     if (this.customer) {
-      this.customerFormControl.setValue(this.customer.id);
+      // this.customerFormControl.setValue(this.customer.id);
     }
   }
 
@@ -45,6 +45,7 @@ export class CustomerComponent implements OnChanges, OnDestroy, OnInit {
 
   ngOnInit() {
     this.filteredCustomers = this.customerFormControl.valueChanges.pipe(
+      startWith(''),
       takeUntil(this.destroyed$),
       debounceTime(250),
       map((name) => (name ? this.filterCustomers(name) : []))

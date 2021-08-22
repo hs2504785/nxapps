@@ -54,15 +54,15 @@ export class OrdersComponent implements OnInit {
             l: LineItem[] = [],
             p: Product[] = [];
           // find the line items
-          order.lineItemIds.forEach((id) => {
+          order?.lineItemIds?.forEach((id) => {
             if (lineItems[id]) {
-              // l.push(lineItems[id]);
+              l.push(lineItems[id]);
             }
           });
           // find the products
           l.forEach((lineItem) => {
             if (products[lineItem.productId]) {
-              // p.push(products[lineItem.productId]);
+              p.push(products[lineItem.productId]);
             }
           });
           return { order: order, customer: c, lineItems: l, products: p };

@@ -57,7 +57,10 @@ export class LineItemEffects {
       ofType(upsertLineItems),
       mergeMap((payload) =>
         forkJoin(
-          payload.lineItems.map((lineItem) => this.service.save(lineItem))
+          payload.lineItems.map((lineItem) => {
+            console.log('bbb', lineItem);
+            return this.service.save(lineItem);
+          })
         ).pipe(
           map((lineItems) =>
             lineItems.map((lineItem) => ({
