@@ -10,6 +10,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
+import { OrdersTableComponent } from './components/orders-table/orders-table.component';
 import { OrdersComponent } from './containers/orders/orders.component';
 import { OrdersRoutingModule } from './orders-routing.module';
 
@@ -36,7 +37,7 @@ import { OrdersRoutingModule } from './orders-routing.module';
     // LineitemsTableComponent,
     // OrderDetailComponent,
     // OrderFormComponent,
-    // OrdersTableComponent,
+    OrdersTableComponent,
     // OrderSummaryComponent,
   ],
 })

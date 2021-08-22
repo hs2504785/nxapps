@@ -7,6 +7,10 @@
         <i class="ti-plus"></i> Add Order
       </button>
     </div>
-    <!-- <app-orders-table [ordersView]="orders$ | async" (delete)="onDeleteOrder($event)" (edit)="onEditOrder($event)"></app-orders-table> -->
+    <app-orders-table
+      [ordersView]="orders$ | async"
+      (delete)="onDeleteOrder($event)"
+      (edit)="onEditOrder($event)"
+    ></app-orders-table>
   </div>
 </div>
