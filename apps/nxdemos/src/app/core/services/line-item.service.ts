@@ -1,13 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { LineItem } from '@state/line-item/line-item.model';
-import { Observable } from 'rxjs/Observable';
-import { of } from 'rxjs/observable/of';
+import { environment } from '../../../environments/environment';
 import { map, switchMap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { LineItem } from '../../modules/complex-forms/modules/state/line-item/line-item.model';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class LineItemService {
-  private lineItemsUrl = 'app/lineItems'; // URL to web api
+  private lineItemsUrl = `${environment.API_URL}/lineItems`; // URL to web api
 
   constructor(private httpClient: HttpClient) {}
 
@@ -16,7 +18,9 @@ export class LineItemService {
   }
 
   getLineItem(id: number): Observable<LineItem> {
-    return this.getLineItems().pipe(map(lineItems => lineItems.find(lineItem => lineItem.id === id)));
+    return this.getLineItems().pipe(
+      map((lineItems) => lineItems.find((lineItem) => lineItem.id === id))
+    );
   }
 
   save(lineItem: LineItem): Observable<LineItem> {
@@ -26,8 +30,10 @@ export class LineItemService {
     return this.post(lineItem);
   }
 
-  delete(id: number): Observable<number> {
-    return this.httpClient.delete<void>(`${this.lineItemsUrl}/${id}`).pipe(switchMap(() => of(id)));
+  delete(id: number) {
+    return this.httpClient
+      .delete<void>(`${this.lineItemsUrl}/${id}`)
+      .pipe(switchMap(() => of(id)));
   }
 
   // Add new LineItem

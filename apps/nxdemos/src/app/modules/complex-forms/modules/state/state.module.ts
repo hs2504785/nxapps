@@ -19,6 +19,7 @@ import { OrderEffects } from './order/order.effects';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { CustomerEffects } from './customer/customer.effects';
+import { LineItemEffects } from './line-item/line-item.effects';
 
 @NgModule({
   imports: [
@@ -30,7 +31,7 @@ import { CustomerEffects } from './customer/customer.effects';
       CustomerEffects,
       ProductEffects,
       OrderEffects,
-      // LineItemEffects,
+      LineItemEffects,
     ]),
     StoreDevtoolsModule.instrument({
       maxAge: 25, // Retains last 25 states

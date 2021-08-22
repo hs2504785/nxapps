@@ -1,84 +1,92 @@
 import { Injectable } from '@angular/core';
-import { LineItemService } from '@core/services/line-item.service';
-import { Actions, Effect } from '@ngrx/effects';
-import { Action, Store } from '@ngrx/store';
-import { AppState } from '@state/app.interfaces';
-import { DeleteLineItem, DeleteLineItemFail, DeleteLineItemSuccess } from '@state/line-item/line-item.actions';
-import { UpdateOrder } from '@state/order/order.actions';
-import { Observable } from 'rxjs/Observable';
-import { forkJoin } from 'rxjs/observable/forkJoin';
-import { of } from 'rxjs/observable/of';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { forkJoin, of } from 'rxjs';
 import { catchError, exhaustMap, map, mergeMap } from 'rxjs/operators';
+import { LineItemService } from '../../../../../core/services/line-item.service';
+import { updateOrder } from '../order/order.actions';
 import {
-  LineItemActionTypes,
-  LoadLineItem,
-  LoadLineItemFail,
-  LoadLineItemSuccess,
-  LoadLineItemsFail,
-  LoadLineItemsSuccess,
-  UpsertLineItems,
-  UpsertLineItemsFail,
-  UpsertLineItemsSuccess
+  deleteLineItem,
+  deleteLineItemFail,
+  deleteLineItemSuccess,
+  loadLineItem,
+  loadLineItemFail,
+  loadLineItems,
+  loadLineItemsFail,
+  loadLineItemsSuccess,
+  loadLineItemSuccess,
+  upsertLineItems,
+  upsertLineItemsFail,
+  upsertLineItemsSuccess,
 } from './line-item.actions';
 import { LineItem } from './line-item.model';
 
 @Injectable()
 export class LineItemEffects {
-  @Effect()
-  delete: Observable<Action> = this.actions$
-    .ofType<DeleteLineItem>(LineItemActionTypes.DeleteLineItem)
-    .pipe(
-      map(action => action.payload.id),
-      exhaustMap(id => this.service.delete(id)),
-      map(id => new DeleteLineItemSuccess({ id })),
-      catchError(err => of(new DeleteLineItemFail()))
+  delete$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(deleteLineItem),
+      map((action) => action.id),
+      exhaustMap((id) => this.service.delete(id)),
+      map((id) => deleteLineItemSuccess({ id })),
+      catchError(() => of(deleteLineItemFail()))
     );
+  });
 
-  @Effect()
-  load: Observable<Action> = this.actions$
-    .ofType(LineItemActionTypes.LoadLineItems)
-    .pipe(
+  load$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(loadLineItems),
       exhaustMap(() => this.service.getLineItems()),
-      map((lineItems: LineItem[]) => new LoadLineItemsSuccess({ lineItems: lineItems })),
-      catchError(err => of(new LoadLineItemsFail()))
+      map((lineItems: LineItem[]) =>
+        loadLineItemsSuccess({ lineItems: lineItems })
+      ),
+      catchError(() => of(loadLineItemsFail()))
     );
+  });
 
-  @Effect()
-  loadById: Observable<Action> = this.actions$
-    .ofType<LoadLineItem>(LineItemActionTypes.LoadLineItem)
-    .pipe(
-      exhaustMap(action => this.service.getLineItem(action.payload.id)),
-      map((lineItem: LineItem) => new LoadLineItemSuccess({ lineItem: lineItem })),
-      catchError(err => of(new LoadLineItemFail()))
+  loadById$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(loadLineItem),
+      exhaustMap((action) => this.service.getLineItem(action.id)),
+      map((lineItem: LineItem) => loadLineItemSuccess({ lineItem: lineItem })),
+      catchError(() => of(loadLineItemFail()))
     );
+  });
 
-  @Effect()
-  upsertLineItems: Observable<Action> = this.actions$.ofType<UpsertLineItems>(LineItemActionTypes.UpsertLineItems).pipe(
-    map(action => action.payload),
-    mergeMap(payload =>
-      forkJoin(payload.lineItems.map(lineItem => this.service.save(lineItem))).pipe(
-        map(lineItems =>
-          lineItems.map(lineItem => ({
-            id: lineItem.id,
-            changes: lineItem
-          }))
-        ),
-        map(updates => new UpsertLineItemsSuccess({ lineItems: updates, order: payload.order })),
-        catchError(err => of(new UpsertLineItemsFail()))
+  upsertLineItems$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(upsertLineItems),
+      mergeMap((payload) =>
+        forkJoin(
+          payload.lineItems.map((lineItem) => this.service.save(lineItem))
+        ).pipe(
+          map((lineItems) =>
+            lineItems.map((lineItem) => ({
+              id: lineItem.id,
+              changes: lineItem,
+            }))
+          ),
+          map((updates) =>
+            upsertLineItemsSuccess({
+              lineItems: updates,
+              order: payload.order,
+            })
+          ),
+          catchError(() => of(upsertLineItemsFail()))
+        )
       )
-    )
-  );
-
-  @Effect()
-  updateOrderFromLineItemsSuccess: Observable<Action> = this.actions$
-    .ofType<UpsertLineItemsSuccess>(LineItemActionTypes.UpsertLineItemsSuccess)
-    .pipe(
-      map(action => ({
-        ...action.payload.order,
-        lineItemIds: action.payload.lineItems.map(lineItem => +lineItem.id)
-      })),
-      map(order => new UpdateOrder({ order }))
     );
+  });
 
-  constructor(private actions$: Actions, private service: LineItemService, private store: Store<AppState>) {}
+  updateOrderFromLineItemsSuccess$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(upsertLineItemsSuccess),
+      map((action) => ({
+        ...action.order,
+        lineItemIds: action.lineItems.map((lineItem) => +lineItem.id),
+      })),
+      map((order) => updateOrder({ order }))
+    );
+  });
+
+  constructor(private actions$: Actions, private service: LineItemService) {}
 }
