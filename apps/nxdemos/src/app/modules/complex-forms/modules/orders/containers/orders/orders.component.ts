@@ -44,6 +44,11 @@ export class OrdersComponent implements OnInit {
           !!orders && !!customers && !!lineItems && !!products
       ),
       map(([orders, customers, lineItems, products]) => {
+        console.log('one', orders);
+        console.log('customers', customers);
+        console.log('lineItems', lineItems);
+        console.log('products', products);
+
         return orders.map((order: Order) => {
           const c: Customer | undefined = customers[order.customerId],
             l: LineItem[] = [],

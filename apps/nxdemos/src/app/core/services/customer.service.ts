@@ -1,14 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { of } from 'rxjs/observable/of';
+import { Customer } from '../../modules/complex-forms/modules/state/customer/customer.model';
+import { Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
+import { environment } from '../../../environments/environment';
 
-import { Customer } from '@state/customer/customer.model';
-
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class CustomerService {
-  private customersUrl = 'app/customers'; // URL to web api
+  private customersUrl = `${environment.API_URL}/customers`; // URL to web api
 
   constructor(private httpClient: HttpClient) {}
 
@@ -18,7 +19,9 @@ export class CustomerService {
 
   getCustomer(id: number): Observable<Customer> {
     return this.getCustomers().pipe(
-      map(customers => customers.find(customer => customer.id === id))
+      map((customers: Customer[]) =>
+        customers.find((customer) => customer.id === id)
+      )
     );
   }
 
@@ -29,7 +32,7 @@ export class CustomerService {
     return this.post(customer);
   }
 
-  delete(customer: Customer): Observable<Customer> {
+  delete(customer: Customer): Observable<any> {
     const url = `${this.customersUrl}/${customer.id}`;
 
     return this.httpClient

@@ -1,29 +1,39 @@
 import { Injectable } from '@angular/core';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { CustomerService } from '../../../../../../app/core/services/customer.service';
+import { of } from 'rxjs';
+import { catchError, map, switchMap } from 'rxjs/operators';
+import {
+  loadCustomer,
+  loadCustomerFail,
+  loadCustomers,
+  loadCustomersFail,
+  loadCustomersSuccess,
+  loadCustomerSuccess,
+} from './customer.actions';
+import { Customer } from './customer.model';
 
 @Injectable()
 export class CustomerEffects {
-  @Effect()
-  load: Observable<Action> = this.actions$
-    .ofType(CustomerActionTypes.LoadCustomers)
-    .pipe(
+  load$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(loadCustomers),
       switchMap(() => this.service.getCustomers()),
-      map(
-        (customers: Customer[]) =>
-          new LoadCustomersSuccess({ customers: customers })
+      map((customers: Customer[]) =>
+        loadCustomersSuccess({ customers: customers })
       ),
-      catchError((err) => of(new LoadCustomersFail()))
+      catchError(() => of(loadCustomersFail()))
     );
+  });
 
-  @Effect()
-  loadById: Observable<Action> = this.actions$
-    .ofType<LoadCustomer>(CustomerActionTypes.LoadCustomer)
-    .pipe(
-      switchMap((action) => this.service.getCustomer(action.payload.id)),
-      map(
-        (customer: Customer) => new LoadCustomerSuccess({ customer: customer })
-      ),
-      catchError((err) => of(new LoadCustomerFail()))
+  loadById$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(loadCustomer),
+      switchMap((action) => this.service.getCustomer(action.id)),
+      map((customer: Customer) => loadCustomerSuccess({ customer: customer })),
+      catchError(() => of(loadCustomerFail()))
     );
+  });
 
   constructor(private actions$: Actions, private service: CustomerService) {}
 }

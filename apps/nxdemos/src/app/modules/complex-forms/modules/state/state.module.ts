@@ -18,6 +18,7 @@ import { CustomSerializer } from './shared/utils';
 import { OrderEffects } from './order/order.effects';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { CustomerEffects } from './customer/customer.effects';
 
 @NgModule({
   imports: [
@@ -26,7 +27,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     }),
     StoreModule.forRoot(appReducer, { metaReducers: appMetaReducers }),
     EffectsModule.forRoot([
-      // CustomerEffects,
+      CustomerEffects,
       ProductEffects,
       OrderEffects,
       // LineItemEffects,
