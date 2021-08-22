@@ -27,7 +27,7 @@
     "dep-graph": "nx dep-graph",
     "help": "nx help",
     "generate": "node ./server/generate.js > ./server/database.json",
-    "server": "json-server --watch ./server/database.json  --id=_id",
+    "server": "json-server --watch ./server/database.json",
     "dev": "concurrently \"npm run server\" \"npm run start\""
   },
   "private": true,
@@ -50,6 +50,7 @@
     "@nrwl/angular": "12.7.2",
     "i": "^0.3.6",
     "npm": "^7.21.0",
+    "ramda": "^0.27.1",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.11.4"
@@ -73,6 +74,7 @@
     "@nrwl/workspace": "12.7.2",
     "@types/jest": "26.0.24",
     "@types/node": "14.14.33",
+    "@types/ramda": "^0.27.44",
     "@typescript-eslint/eslint-plugin": "~4.28.3",
     "@typescript-eslint/parser": "~4.28.3",
     "concurrently": "^6.2.1",

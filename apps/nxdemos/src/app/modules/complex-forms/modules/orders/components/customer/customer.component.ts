@@ -1,15 +1,22 @@
-import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { AbstractControl, FormControl, Validators } from '@angular/forms';
-import { Validation } from '@core/interfaces/validation';
-import { Customer } from '@state/customer/customer.model';
-import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
+import { Observable, Subject } from 'rxjs';
+
 import { debounceTime, map, takeUntil } from 'rxjs/operators';
+import { Customer } from '../../../state/customer/customer.model';
 
 @Component({
   selector: 'app-customer',
   templateUrl: './customer.component.html',
-  styleUrls: ['./customer.component.scss']
+  styleUrls: ['./customer.component.scss'],
 })
 export class CustomerComponent implements OnChanges, OnDestroy, OnInit {
   customerFormControl: FormControl;
@@ -17,7 +24,7 @@ export class CustomerComponent implements OnChanges, OnDestroy, OnInit {
   @Input() customer: Customer;
   @Input() customers: Customer[];
   @Output() customerChange = new EventEmitter<Customer>();
-  @Output() validationChange = new EventEmitter<[AbstractControl, Validation]>();
+  @Output() validationChange = new EventEmitter<any>();
 
   private destroyed$ = new Subject<void>();
 
@@ -40,9 +47,11 @@ export class CustomerComponent implements OnChanges, OnDestroy, OnInit {
     this.filteredCustomers = this.customerFormControl.valueChanges.pipe(
       takeUntil(this.destroyed$),
       debounceTime(250),
-      map(name => (name ? this.filterCustomers(name) : []))
+      map((name) => (name ? this.filterCustomers(name) : []))
     );
-    this.customerFormControl.valueChanges.pipe(takeUntil(this.destroyed$)).subscribe(() => this.emitValidationChange());
+    this.customerFormControl.valueChanges
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe(() => this.emitValidationChange());
     this.emitValidationChange();
   }
 
@@ -53,24 +62,32 @@ export class CustomerComponent implements OnChanges, OnDestroy, OnInit {
     if (this.customers === undefined) {
       return '';
     }
-    const data = this.customers.find(customer => customer.id === id);
+    const data = this.customers.find((customer) => customer.id === id);
     return data ? `${data.firstName} ${data.lastName}` : '';
   }
 
   filterCustomers(name: string): Customer[] {
     const regex = new RegExp(`^${name}.*`, 'i');
-    return this.customers.filter(customer => regex.test(customer.firstName) || regex.test(customer.lastName));
+    return this.customers.filter(
+      (customer) =>
+        regex.test(customer.firstName) || regex.test(customer.lastName)
+    );
   }
 
   private buildForm() {
-    this.customerFormControl = new FormControl('', [Validators.required, Validators.pattern(/^[0-9]+$/)]);
-    this.customerFormControl.valueChanges.pipe(takeUntil(this.destroyed$), debounceTime(250)).subscribe(value => {
-      if (this.customerFormControl.invalid) {
-        return;
-      }
-      const data = this.customers.find(customer => customer.id === value);
-      this.customerChange.emit(data);
-    });
+    this.customerFormControl = new FormControl('', [
+      Validators.required,
+      Validators.pattern(/^[0-9]+$/),
+    ]);
+    this.customerFormControl.valueChanges
+      .pipe(takeUntil(this.destroyed$), debounceTime(250))
+      .subscribe((value) => {
+        if (this.customerFormControl.invalid) {
+          return;
+        }
+        const data = this.customers.find((customer) => customer.id === value);
+        this.customerChange.emit(data);
+      });
   }
 
   private emitValidationChange() {
@@ -78,8 +95,8 @@ export class CustomerComponent implements OnChanges, OnDestroy, OnInit {
       this.customerFormControl,
       {
         message: 'Customer is required',
-        valid: this.customerFormControl.valid
-      }
+        valid: this.customerFormControl.valid,
+      },
     ]);
   }
 }

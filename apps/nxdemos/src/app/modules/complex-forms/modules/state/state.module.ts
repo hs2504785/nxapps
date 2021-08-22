@@ -15,6 +15,9 @@ import {
   RouterStateSerializer,
 } from '@ngrx/router-store';
 import { CustomSerializer } from './shared/utils';
+import { OrderEffects } from './order/order.effects';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   imports: [
@@ -25,7 +28,7 @@ import { CustomSerializer } from './shared/utils';
     EffectsModule.forRoot([
       // CustomerEffects,
       ProductEffects,
-      // OrderEffects,
+      OrderEffects,
       // LineItemEffects,
     ]),
     StoreDevtoolsModule.instrument({
@@ -33,6 +36,8 @@ import { CustomSerializer } from './shared/utils';
       logOnly: environment.production, // Restrict extension to log-only mode
       autoPause: true, // Pauses recording actions and state changes when the extension window is not open
     }),
+    MatDialogModule,
+    MatSnackBarModule,
   ],
   declarations: [],
 })

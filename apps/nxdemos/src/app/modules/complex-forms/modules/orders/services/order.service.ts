@@ -23,7 +23,7 @@ export class OrderService {
     );
   }
 
-  save(order: Order) {
+  save(order: Order): Observable<any> {
     if (order.id) {
       return this.put(order);
     }
@@ -46,7 +46,7 @@ export class OrderService {
   // Update existing Order
   private put(order: Order): Observable<Order> {
     return this.http
-      .put<void>(`${this.ordersUrl}/${order.id}`, order)
+      .put<Order>(`${this.ordersUrl}/${order.id}`, order)
       .pipe(switchMap(() => of(order)));
   }
 }

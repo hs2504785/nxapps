@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { of } from 'rxjs/observable/of';
 import {
   catchError,
   exhaustMap,
@@ -41,19 +40,19 @@ import { loadProducts } from '../product/product.actions';
 import { loadCustomers } from '../customer/customer.actions';
 import { ValidationDialogComponent } from '../../../shared/dialogs/validation-dialog/validation-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { of } from 'rxjs';
 
 @Injectable()
 export class OrderEffects {
   add$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(addOrder),
-      // filter({order} => !order.id),
-      switchMap(({ lineItems, order }) => {
-        return this.service.save(order).pipe(
-          map((order) => addOrderSuccess({ lineItems, order })),
-          catchError(() => of(LoadOrderFail()))
-        );
-      })
+      filter((action) => !action.order.id),
+      switchMap(({ order }) => {
+        return this.service.save(order);
+      }),
+      map(({ lineItems, order }) => addOrderSuccess({ lineItems, order })),
+      catchError(() => of(LoadOrderFail()))
     );
   });
 
@@ -113,8 +112,8 @@ export class OrderEffects {
   loadById$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(loadOrder),
-      exhaustMap(({ id }) => this.service.getOrder(id)),
-      map((order: Order) => loadOrderSuccess({ order })),
+      exhaustMap(({ id }) => this.service.getOrder(+id)),
+      map((order: any) => loadOrderSuccess({ order })),
       catchError(() => of(LoadOrderFail()))
     );
   });
@@ -175,6 +174,6 @@ export class OrderEffects {
     private actions$: Actions,
     private matDialog: MatDialog,
     private matSnackBar: MatSnackBar,
-    private service: OrderService // private store: Store<AppState>
+    private service: OrderService
   ) {}
 }

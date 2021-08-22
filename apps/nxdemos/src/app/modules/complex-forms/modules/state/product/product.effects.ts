@@ -117,7 +117,6 @@ export class ProductEffects {
   constructor(
     private actions$: Actions,
     private router: Router,
-    private service: ProductService,
-    private store: Store<AppState>
+    private service: ProductService
   ) {}
 }

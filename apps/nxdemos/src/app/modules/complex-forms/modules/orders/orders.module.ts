@@ -10,6 +10,11 @@ import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
+import { CustomerComponent } from './components/customer/customer.component';
+import { LineitemsTableComponent } from './components/lineitems-table/lineitems-table.component';
+import { OrderDetailComponent } from './components/order-detail/order-detail.component';
+import { OrderFormComponent } from './components/order-form/order-form.component';
+import { OrderSummaryComponent } from './components/order-summary/order-summary.component';
 import { OrdersTableComponent } from './components/orders-table/orders-table.component';
 import { OrdersComponent } from './containers/orders/orders.component';
 import { OrdersRoutingModule } from './orders-routing.module';
@@ -33,12 +38,12 @@ import { OrdersRoutingModule } from './orders-routing.module';
   ],
   declarations: [
     OrdersComponent,
-    // CustomerComponent,
-    // LineitemsTableComponent,
-    // OrderDetailComponent,
-    // OrderFormComponent,
+    CustomerComponent,
+    LineitemsTableComponent,
+    OrderDetailComponent,
+    OrderFormComponent,
     OrdersTableComponent,
-    // OrderSummaryComponent,
+    OrderSummaryComponent,
   ],
 })
 export class OrdersModule {}

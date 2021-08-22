@@ -7,6 +7,7 @@
         <i class="ti-plus"></i> Add Order
       </button>
     </div>
+    {{ orders$ | async | json }}
     <app-orders-table
       [ordersView]="orders$ | async"
       (delete)="onDeleteOrder($event)"
