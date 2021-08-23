@@ -56,10 +56,11 @@ export const productReducer = createReducer(
   // on(updateProducts, (state, action) =>
   //   productAdapter.updateMany(action.products, state)
   // ),
-  // on(
-  //   deleteProduct,
-  //   (state, action): ProductState => productAdapter.removeOne(action.product.id, state)
-  // ),
+  on(
+    deleteProduct,
+    (state, action): ProductState =>
+      productAdapter.removeOne(action.product.id, state)
+  ),
   on(
     deleteProducts,
     (state, action): ProductState =>

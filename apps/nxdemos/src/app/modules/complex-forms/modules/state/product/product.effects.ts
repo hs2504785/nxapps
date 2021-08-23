@@ -26,10 +26,12 @@ import {
   loadProductsSuccess,
   loadProductSuccess,
   updateProduct,
+  updateProductSuccess,
 } from './product.actions';
 import { ProductService } from '../../products/services/product.service';
 import { AppState } from '../app.interfaces';
 import { of } from 'rxjs';
+import { getSelectedProduct } from './product.selectors';
 // import { getSelectedProduct } from './product.selectors';
 
 @Injectable()
@@ -51,8 +53,8 @@ export class ProductEffects {
   addSuccess$ = createEffect(
     () => {
       return this.actions$.pipe(
-        ofType(addProductSuccess),
-        tap(() => this.router.navigate(['products']))
+        ofType(addProductSuccess, updateProductSuccess),
+        tap(() => this.router.navigate(['complex-forms/products']))
       );
     },
     { dispatch: false }
@@ -100,19 +102,19 @@ export class ProductEffects {
     );
   });
 
-  // update$ = createEffect(() => {
-  //   return this.actions$.pipe(
-  //     ofType(updateProduct),
-  //     withLatestFrom(getSelectedProduct),
-  //     switchMap(([action, product]) => {
-  //       return this.service.save(product);
-  //     }),
-  //     map((product: Product) => {
-  //       return loadProductSuccess({ product });
-  //     }),
-  //     catchError(() => of(loadProductFail()))
-  //   );
-  // });
+  update$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(updateProduct),
+      // withLatestFrom(getSelectedProduct),
+      switchMap((payload: any) => {
+        return this.service.save(payload.product.changes);
+      }),
+      map((product: Product) => {
+        return updateProductSuccess({ product });
+      }),
+      catchError(() => of(loadProductFail()))
+    );
+  });
 
   constructor(
     private actions$: Actions,

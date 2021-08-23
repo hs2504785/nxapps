@@ -55,7 +55,7 @@ export class ProductFormComponent implements OnChanges, OnDestroy {
       .pipe(takeUntil(this.destroyed$), skip(1), debounceTime(500))
       .subscribe((value) => {
         this.productChange.emit({
-          product: value,
+          product: { ...this.product, ...value },
           valid: this.formGroup.valid,
         });
       });
