@@ -1,6 +1,8 @@
 <div class="order-container">
   <div>
     <h2>Order</h2>
+
+    HHH {{ order$ | async | json }}
     <app-order-form
       [order]="order$ | async"
       [customer]="customer$ | async"

@@ -79,6 +79,6 @@ export class OrdersComponent implements OnInit {
   }
   onEditOrder(order: Order) {
     this.store.dispatch(selectOrder({ order: order }));
-    this.router.navigate(['orders', order.id]);
+    this.router.navigate(['complex-forms/orders', order.id]);
   }
 }
